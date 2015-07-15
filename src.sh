@@ -50,10 +50,8 @@ cd /usr/local/mysql
 ln -s /usr/local/mysql/my.cnf /etc/my.cnf
 cp ./support-files/mysql.server  /etc/rc.d/init.d/mysqld
 chmod 755 /etc/init.d/mysqld
-chkconfig mysqld on
 echo 'basedir=/usr/local/mysql/' >> /etc/rc.d/init.d/mysqld
 echo 'datadir=/data/mysql/' >>/etc/rc.d/init.d/mysqld
-service mysqld start
 echo 'export PATH=$PATH:/usr/local/mysql/bin' >> /etc/profile
 ln -s /usr/local/mysql/lib/mysql /usr/lib/mysql
 ln -s /usr/local/mysql/include/mysql /usr/include/mysql
@@ -72,8 +70,6 @@ chmod  777 /tmp/tcmalloc -R
 /usr/local/nginx/sbin/nginx
 cp /usr/local/src/etc/nginx  /etc/rc.d/init.d/nginx
 chmod 775 /etc/rc.d/init.d/nginx
-chkconfig nginx on
-/etc/rc.d/init.d/nginx restart
 cd /usr/local/src
 tar zxvf gd-2.0.36RC1.tar.gz
 cd gd-2.0.36RC1
@@ -180,8 +176,6 @@ chmod +x /home/vhost.sh
 chown www.www /usr/local/nginx/html/ -R
 chmod 700 /usr/local/nginx/html/ -R
 yum install -y db4* vsftpd
-/etc/init.d/vsftpd start
-chkconfig vsftpd on
 sed -i "s/anonymous_enable=YES/anonymous_enable=NO/g" '/etc/vsftpd/vsftpd.conf'
 sed -i "s/#anon_upload_enable=YES/anon_upload_enable=NO/g" '/etc/vsftpd/vsftpd.conf'
 sed -i "s/#anon_mkdir_write_enable=YES/anon_mkdir_write_enable=YES/g" '/etc/vsftpd/vsftpd.conf'
@@ -196,5 +190,3 @@ db_load -T -t hash -f /etc/vsftpd/virtusers /etc/vsftpd/virtusers.db
 chmod 600 /etc/vsftpd/virtusers.db
 sed -i '1i\auth sufficient /lib64/security/pam_userdb.so db=/etc/vsftpd/virtusers\naccount sufficient /lib64/security/pam_userdb.so db=/etc/vsftpd/virtusers' /etc/pam.d/vsftpd
 mkdir  /etc/vsftpd/vconf
-/etc/init.d/vsftpd restart
-/etc/init.d/vsftpd stop
